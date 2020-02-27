@@ -1,0 +1,25 @@
+var data = {
+                        Email: emailaddr,
+                        FirstName: fname,
+                        LastName: lname,
+                        Mobile: mobile,
+                        "Address" : {
+                            PostCode : postcode
+                        }
+                    };
+var url = [url];
+var accessTokenResult = HTTP.Post(url);
+var statusCode = accessTokenResult["StatusCode"];
+var response = accessTokenResult["Response"][0]; 
+var accessToken = Platform.Function.ParseJSON(response).access_token;    
+Write(accessToken);
+var url2 = [url];
+var headerNames = ["Authorization"]; 
+var headerValues = ["Bearer " + accessToken];
+var status = [0];
+var result = Platform.Function.HTTPPost(url2,'application/json',Stringify(data),headerNames,headerValues,status);
+var response2 = Platform.Function.ParseJSON(status[0]);
+var statuscode = response2.status;                          
+var ContactId = response2.ReturnIds[0].ContactId;
+var CampaignMemberId = response2.ReturnIds[0].CampaignMemberId;
+var OpportunityId = response2.ReturnIds[0].OpportunityId;             
